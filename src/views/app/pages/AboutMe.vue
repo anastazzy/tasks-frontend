@@ -1,11 +1,52 @@
 <template>
-	Hello World!
+	<span>
+    Longitude
+  </span>
+  <el-input v-model="params.lon">
+  </el-input>
+  <span>
+    Latitude
+  </span>
+  <el-input v-model="params.lat">
+  </el-input>
+  <span>
+    Width and height of image in degrees
+  </span>
+  <el-input v-model="params.dim">
+  </el-input>
+  <span>
+    Date
+  </span>
+  <el-date-picker
+      value-format="YYYY-MM-DD"
+      v-model="params.date"
+      type="date"
+      placeholder="Pick a day">
+  </el-date-picker>
+  <div>
+    <img width="500" height="500" :src="imageSrc" alt="asdasd"/>
+  </div>
 </template>
 
 <script>
-	
-	export default {
-	  
-	}
+import {computed, ref} from 'vue';
+  export default {
+  name: 'AboutMe',
+  setup(){
+    let params = ref({
+      lon: 100.75,
+      lat: 1.5,
+      date: '2014-02-01',
+      dim: 0.35,
+    });
+    const imageSrc = computed(() => {
+      return `api/earth-picture?lon=${params.value.lon}&lat=${params.value.lat}&date=${params.value.date}&dim=${params.value.dim}`;
+    });
+    return{
+      params,
+      imageSrc,
+    }
+  }
+}
 </script>
 

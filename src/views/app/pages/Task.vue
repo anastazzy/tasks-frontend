@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import { useRoute } from 'vue-router'
+  import { useRoute } from 'vue-router'
 	import { ref, onMounted} from 'vue'
 	import Axios from 'axios'
 	export default {
@@ -42,6 +42,10 @@
 		  task.value = response.data;
 		  console.log(task);
 		}
+    const update = async()=>{
+      const response = await Axios.patch('tasks/'+task.value.id, task.value);
+      isEditable.value = false;
+    }
 		onMounted(async()=>{
 		  await loadDate();
 		})
@@ -53,15 +57,15 @@
       if (!isEditable.value) {
         startEdit();
       } else {
-          //await update();
+          await update();
         }
     }
-
 		return{
 		  loadDate,
       onSaveButtonClick,
 		  task,
       isEditable,
+      update,
 		}
 	  }
 	}
